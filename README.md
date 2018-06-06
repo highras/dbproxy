@@ -24,6 +24,7 @@
 	1. 请先编译 [FPNN 框架](https://github.com/highras/fpnn)
 	1. 确保 dbproxy 目录和 fpnn 目录处于同一父目录下
 	1. cd dbproxy; make
+	1. make deploy
 
 
 ## 三、功能 & 特性

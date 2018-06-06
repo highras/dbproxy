@@ -7,8 +7,7 @@ clean:
 	for x in $(dirs); do (cd $$x; make clean) || exit 1; done
 
 deploy:
-	-mkdir -p ../deployment/rpm/bin/
-	-mkdir -p ../deployment/rpm/conf/
-	-mkdir -p ../deployment/rpm/tools/
+	-mkdir -p ../deployment/dbproxy/bin/
+	-mkdir -p ../deployment/dbproxy/conf/
+	-mkdir -p ../deployment/dbproxy/tools/
 	for x in $(dirs); do (cd $$x; make deploy) || exit 1; done
-	cp -rf deployTools ../deployment/rpm/tools/
