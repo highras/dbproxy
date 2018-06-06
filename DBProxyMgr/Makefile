@@ -12,7 +12,4 @@ deploy:
 	make -C DBPM deploy $(BUILD_PARAMS)
 
 clean:
-	make -C DBPM clean $(BUILD_PARAMS)
-
-cleanall:
 	$(RM) -rf DBPM
