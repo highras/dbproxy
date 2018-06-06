@@ -15,8 +15,6 @@
 1. FPNN 框架通用配置
 
 	FPNN 框架通用配置，包含，但不限于以下配置项，具体请参考：[FPNN 标准配置模板](https://github.com/highras/fpnn/blob/master/doc/conf.template)
-	
-	**如需监听 IPv6 地址和端口**，亦请参考 [FPNN 标准配置模板](https://github.com/highras/fpnn/blob/master/doc/conf.template)
 
 	+ **FPNN.server.listening.ip**
 	+ **FPNN.server.listening.port**
@@ -24,6 +22,8 @@
 	+ **FPNN.server.log.level**
 	+ **FPNN.server.log.endpoint**
 	+ **FPNN.server.log.route**
+
+	**如需监听 IPv6 地址和端口**，亦请参考 [FPNN 标准配置模板](https://github.com/highras/fpnn/blob/master/doc/conf.template)
 
 1. DBProxy 配置库配置
 
@@ -121,6 +121,6 @@
 
 	+ **FPNN.server.cluster.name**
 
-		DBProxy 在 FPZK 中的业务分组名称。**可选配置**。
+		DBProxy 在 FPZK 中的业务分组名称。**可选配置**。  
 		**注：DBProxy 在 FPZK 中的业务分组，和 DBProxy 自身的业务分组没有任何关系。**
 
