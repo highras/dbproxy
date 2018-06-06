@@ -6,9 +6,6 @@ all:
 clean:
 	for x in $(dirs); do (cd $$x; make clean) || exit 1; done
 
-install:
-	make install
-
 deploy:
 	-mkdir -p ../deployment/rpm/bin/
 	-mkdir -p ../deployment/rpm/conf/
