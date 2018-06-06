@@ -72,9 +72,9 @@
 
 1. 修改数据表生效
 
-		1. 请使用 DBDeployer 的 update config time 命令，更新配置库更新时间。
+	1. 请使用 DBDeployer 的 update config time 命令，更新配置库更新时间。
 
-		1. 然后：
+	1. 然后：
 
-			+ 等待配置项 DBProxy.ConfigureDB.checkInterval 指定的时间过后，DBProxy 自动加载新的数据表。
-			+ 或使用 DBRefresher 强制每个 DBProxy 立刻加载新的数据表。
+		+ 等待配置项 DBProxy.ConfigureDB.checkInterval 指定的时间过后，DBProxy 自动加载新的数据表。
+		+ 或使用 DBRefresher 强制每个 DBProxy 立刻加载新的数据表。

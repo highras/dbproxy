@@ -74,11 +74,13 @@
 
 	如果sql参数中包含占位符'?'，则视为参数化SQL查询。此时，params中的字符串将依次替换sql参数中的'?'。
 
-	例：sql: "select ? from ? where uid=?", params: ["name", "tbl_users", "123456"]，替换后为："select name from tbl_users where uid=123456"
+	例：  
+	sql: "select ? from ? where uid=?", params: ["name", "tbl_users", "123456"]，替换后为："select name from tbl_users where uid=123456"
 
 	如果sql参数中'?'前后均为单引号" ' "，则对应的params字符串，在替换时，将进行 escape 处理。如果不被单引号" ' "所包围，则不进行 escape 处理。
 
-	例：sql: "select ? from ? where uid=? and name = '?' ",params:["age", "tbl_users", "123456", "abc"]，则替换后为："select age from tbl_users where uid=123456 and name='abc' "
+	例：  
+	sql: "select ? from ? where uid=? and name = '?' ",params:["age", "tbl_users", "123456", "abc"]，则替换后为："select age from tbl_users where uid=123456 and name='abc' "
 
 	其中的"age", "tbl_users", "123456"将不会被进行 escape 处理，而 "abc" 则会被 escape 处理。
 
@@ -104,9 +106,9 @@
 
 		从用户使用层面而言，除了以下几点细节外，其余可视为等同：
 
-			+ 基于功能目的不同，Prepared Statements/PDO仿真预处理 不能参数化 表名 和 操作类型(select、insert、delete、update、replace 等)，参数化查询可以。
-			+ Prepared Statements/PDO仿真预处理 会自动识别参数类型，为字符串加上" ' "，参数化查询不会。
-			+ Prepared Statements/PDO仿真预处理 会对所有字符串进行 escape 处理，参数化查询只对" '?' "占位的字符串进行 escape 处理，对" ? "占位的字符串不做 escape 处理。
+		+ 基于功能目的不同，Prepared Statements/PDO仿真预处理 不能参数化 表名 和 操作类型(select、insert、delete、update、replace 等)，参数化查询可以。
+		+ Prepared Statements/PDO仿真预处理 会自动识别参数类型，为字符串加上" ' "，参数化查询不会。
+		+ Prepared Statements/PDO仿真预处理 会对所有字符串进行 escape 处理，参数化查询只对" '?' "占位的字符串进行 escape 处理，对" ? "占位的字符串不做 escape 处理。
 
 
 

@@ -15,16 +15,16 @@
 
 运行环境：
 
-	+ 操作系统：CentOS 6.5、CentOS 7
-	+ 支持数据库：MySQL 5.0 以上
-	+ 第三方依赖：FPNN 框架、libmysqlclient
++ 操作系统：CentOS 6.5、CentOS 7
++ 支持数据库：MySQL 5.0 以上
++ 第三方依赖：FPNN 框架、libmysqlclient
 
 编译：
 
-	1. 请先编译 [FPNN 框架](https://github.com/highras/fpnn)
-	1. 确保 dbproxy 目录和 fpnn 目录处于同一父目录下
-	1. cd dbproxy; make
-	1. make deploy
+1. 请先编译 [FPNN 框架](https://github.com/highras/fpnn)
+1. 确保 dbproxy 目录和 fpnn 目录处于同一父目录下
+1. cd dbproxy; make
+1. make deploy
 
 
 ## 三、功能 & 特性
@@ -75,7 +75,7 @@
 + DBProxy API 请参考 [DBProxy 接口说明](doc/zh-cn/DBProxy-API.md)
 + DBProxy 运维管理请参考 [DBProxy 运维管理](doc/zh-cn/DBProxy-Operations.md)
 + DBProxy 管理工具请参考 [DBProxy 管理工具](doc/zh-cn/DBProxy-Tools.md)
-+ DBProxy 账号与安全请参考 [DBProxy 账号与安全](doc/zh-cn/DBProxy-Account-Security.md)
++ DBProxy 账号与安全请参考 [DBProxy 账号与安全](doc/zh-cn/DBProxy-Accounts-Security.md)
 
 
 ## 六、DBProxy 技术架构
