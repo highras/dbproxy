@@ -7,7 +7,7 @@
 ------------
 i. query:
 ------------
-=> query { hintId:%d, ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+=> query { hintId:%d, ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 
 # Parameter introduction:
 # hintId:
@@ -35,9 +35,9 @@ i. query:
 ------------
 ii. iQuery & sQuery
 ------------
-=> iQuery { hintIds:[%d], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+=> iQuery { hintIds:[%d], ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 # or
-=> sQuery { hintIds:[%s], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+=> sQuery { hintIds:[%s], ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 
 # Parameter introduction:
 # hintIds:
@@ -85,7 +85,7 @@ ii. iQuery & sQuery
 2. splitInfo:
 ---------------
 # If table not found, will return standard error answer, ex & msg are 'Table not found.'.
-=> splitInfo { tableName:%s }
+=> splitInfo { tableName:%s, ?cluster:%s }
 <= { splitByRange:true, span:%d, count:%d, databaseCategory:%s, splitHint:%s, secondarySplit:%b, secondarySplitSpan:%d }
 # or
 <= { splitByRange:false, tableCount:%d, splitHint:%s }
@@ -94,7 +94,7 @@ ii. iQuery & sQuery
 ---------------
 3. categoryInfo:
 ---------------
-=> categoryInfo { databaseCategory:%s }
+=> categoryInfo { databaseCategory:%s, ?cluster:%s }
 <= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
 # If oddEvenCount not ZERO, oddEvenIndexes can be used.
 
@@ -102,7 +102,7 @@ ii. iQuery & sQuery
 ---------------
 4. reformHintIds:
 ---------------
-=> reformHintIds { tableName:%s, hintIds:[%d] }
+=> reformHintIds { tableName:%s, ?cluster:%s, hintIds:[%d] }
 <= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
 
 # hintPairs: [[%d, [%d]], [%d, [%d]], [%d, [%d]], ... ]
@@ -111,7 +111,7 @@ ii. iQuery & sQuery
 ---------------
 5. allSplitHintIds:
 ---------------
-=> allSplitHintIds { tableName:%s }
+=> allSplitHintIds { tableName:%s, ?cluster:%s }
 <= { hintIds:[%d] }
 
 
@@ -124,10 +124,10 @@ ii. iQuery & sQuery
 ---------------
 7. transaction:
 ---------------
-=> transaction { hintIds:[%d], tableNames:[%s], sqls:[%s] }
+=> transaction { hintIds:[%d], tableNames:[%s], ?cluster:%s, sqls:[%s] }
 <= {}
 
-=> sTransaction { hintIds:[%s], tableNames:[%s], sqls:[%s] }
+=> sTransaction { hintIds:[%s], tableNames:[%s], ?cluster:%s, sqls:[%s] }
 <= {}
 
 # Parameter introduction:
