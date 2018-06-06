@@ -122,5 +122,5 @@
 	+ **FPNN.server.cluster.name**
 
 		DBProxy 在 FPZK 中的业务分组名称。**可选配置**。  
-		**注：DBProxy 在 FPZK 中的业务分组，和 DBProxy 自身的业务分组没有任何关系。**
+		**注：DBProxy 在 FPZK 中的业务分组，和 DBProxy 代理的数据库的业务分组没有任何关系。**
 
