@@ -2,7 +2,7 @@
 
 ## 一、账号相关
 
-请参考 [DBProxy 账号与安全](doc/zh-cn/DBProxy-Account-Security.md)
+请参考 [DBProxy 账号与安全](doc/zh-cn/DBProxy-Accounts-Security.md)
 
 
 ## 二、部署数据库
