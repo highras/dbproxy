@@ -147,14 +147,14 @@ int main(int argc, const char* argv[])
 	{
 		param.host = "localhost";
 		param.port = 12321;
-		param.hint = atoi(argv[1]);
+		param.hint = atoll(argv[1]);
 		param.sql = argv[2];
 	}
 	else if (argc == 4)
 	{
 		param.host = "localhost";
 		param.port = 12321;
-		param.hint = atoi(argv[1]);
+		param.hint = atoll(argv[1]);
 		param.tablename = argv[2];
 		param.sql = argv[3];
 	}
