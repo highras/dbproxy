@@ -16,7 +16,7 @@
 
 	FPNN 框架通用配置，包含，但不限于以下配置项，具体请参考：[FPNN 标准配置模板](https://github.com/highras/fpnn/blob/master/doc/conf.template)
 	
-	**如需监听 IPv6 地址和端口，亦请参考 [FPNN 标准配置模板](https://github.com/highras/fpnn/blob/master/doc/conf.template)
+	**如需监听 IPv6 地址和端口**，亦请参考 [FPNN 标准配置模板](https://github.com/highras/fpnn/blob/master/doc/conf.template)
 
 	+ **FPNN.server.listening.ip**
 	+ **FPNN.server.listening.port**
