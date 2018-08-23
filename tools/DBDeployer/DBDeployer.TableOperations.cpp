@@ -367,7 +367,7 @@ bool DBDeployer::checkTableNameInCreateSQL(const std::string& tableName, const s
 	{
 		if (!silence)
 		{
-			cout<<"Cannot find table name: "<<tableName<<"in SQL:"<<endl;
+			cout<<"Cannot find table name: '"<<tableName<<"' in SQL:"<<endl;
 			cout<<createSQL<<endl<<endl;
 		}
 		return false;
@@ -378,7 +378,7 @@ bool DBDeployer::checkTableNameInCreateSQL(const std::string& tableName, const s
 	{
 		if (!silence)
 		{
-			cout<<"Cannot find table name: "<<tableName<<"in SQL:"<<endl;
+			cout<<"Cannot find table name: '"<<tableName<<"' in SQL:"<<endl;
 			cout<<createSQL<<endl<<endl;
 		}
 		return false;
@@ -429,18 +429,26 @@ void DBDeployer::createHashTable(const std::string& tableName, const std::string
 		for (int serverId: _configDB._deployInstances)
 			deployServerIds.push_back(serverId);
 
-		size_t deployIdx = 0;
-		for (int i = 0; i < databaseCount; i++)
+		if (databaseCount == 1)
 		{
-			std::string realDatabaseName(targetDatabase);
-			realDatabaseName.append("_").append(std::to_string(i));
+			databaseDistribution[0].databaseName = targetDatabase;
+			databaseDistribution[0].serverId = deployServerIds[0];
+		}
+		else
+		{
+			size_t deployIdx = 0;
+			for (int i = 0; i < databaseCount; i++)
+			{
+				std::string realDatabaseName(targetDatabase);
+				realDatabaseName.append("_").append(std::to_string(i));
 
-			databaseDistribution[i].databaseName = realDatabaseName;
-			databaseDistribution[i].serverId = deployServerIds[deployIdx];
-			deployIdx += 1;
+				databaseDistribution[i].databaseName = realDatabaseName;
+				databaseDistribution[i].serverId = deployServerIds[deployIdx];
+				deployIdx += 1;
 
-			if (deployIdx == deployServerIds.size())
-				deployIdx = 0;
+				if (deployIdx == deployServerIds.size())
+					deployIdx = 0;
+			}
 		}
 	}
 

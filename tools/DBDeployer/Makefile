@@ -1,5 +1,4 @@
-EXES_CLIENT = CmdParser
-EXES_RealName = DBDeployer
+EXES_CLIENT = DBDeployer
 
 FPNN_DIR = ../../../fpnn
 DEPLOYMENT_DIR = ../../../deployment/dbproxy
@@ -12,13 +11,12 @@ LIBS += -L$(FPNN_DIR)/extends -L$(FPNN_DIR)/core -L$(FPNN_DIR)/proto -L$(FPNN_DI
 OBJS_CLIENT = DBDeployer.o DBDeployer.TableOperations.o DBDeployer.Confuser.o MySQLClient.o linenoise.o CmdParser.o CommandProcessor.o
 
 all: $(EXES_CLIENT)
-	mv $(EXES_CLIENT) $(EXES_RealName)
 
 
 deploy:
-	cp -rf $(EXES_RealName) $(DEPLOYMENT_DIR)/tools/
+	cp -rf $(EXES_CLIENT) $(DEPLOYMENT_DIR)/tools/
 
 clean:
-	$(RM) *.o $(EXES_RealName)
+	$(RM) *.o $(EXES_CLIENT)
 
 include $(FPNN_DIR)/def.mk

@@ -408,16 +408,19 @@ bool fetchSQLFromFile(DBDeployer& deployer, const std::string& filePath, const s
 			}		
 		}
 
-		maybeHeader = (trimedLine[trimedLine.length() - 1] == ';');
-		if (found && !maybeHeader)
-			oss<<"\r\n";
-
-		if (found && maybeHeader)
+		if (found)
 		{
-			sql = oss.str();
-			found = deployer.checkTableNameInCreateSQL(tableName, sql, true);
-			if (found)
-				return true;
+			maybeHeader = (trimedLine[trimedLine.length() - 1] == ';');
+
+			if (!maybeHeader)
+				oss<<"\r\n";
+			else
+			{
+				sql = oss.str();
+				found = deployer.checkTableNameInCreateSQL(tableName, sql, true);
+				if (found)
+					return true;
+			}
 		}
 	}
 
@@ -590,6 +593,7 @@ void commandLoop(DBDeployer& deployer)
 	CommandProcessor processor;
 	initCommandProcessor(processor, deployer);
 
+	cout<<endl<<"DBDeployer Version: Cluster Version"<<endl;
 	cout<<endl<<"Warnning: This deploy tool requires all administrator accounts of all databases are same."<<endl;
 	cout<<endl<<"Warnning: If need to alter tables, please using DBProxy manager version."<<endl;
 	cout<<endl<<"Enter 'help' to list all commands."<<endl<<endl;

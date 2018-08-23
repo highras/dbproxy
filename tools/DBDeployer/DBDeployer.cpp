@@ -485,7 +485,8 @@ void DBDeployer::addDeployServer(int masterServerId)
 		return;
 	}
 
-	_configDB.addDeployServer(masterServerId);
+	if (_configDB.addDeployServer(masterServerId) == 0)
+		cout<<"Cannot find server with server_id "<<masterServerId<<endl;
 }
 void DBDeployer::removeDeployServer(int masterServerId)
 {
