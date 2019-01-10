@@ -20,18 +20,17 @@
 使用：
 
 	./DBQuery hint sql cluster
-	./DBQuery hint table_name  sql cluster
+	./DBQuery hint table_name sql cluster
 	./DBQuery host port hint sql cluster
 	./DBQuery host port hint table_name sql cluster
 	./DBQuery host port hintfrom hintto table_name sql cluster
 
 host 默认为 localhost，port 默认为 12321。
 
-**DBQuery 仅可用于 cluster 为空串的数据表**。如需查询 cluster 不为空串的分组，请使用 DBParamsQuery。
 
 例 1：
 
-	$ ./DBQuery 200012 "desc tmp_users"
+	$ ./DBQuery 200012 "desc tmp_users" bizCluster01
 	Query finished.
 	 
 	+-------+---------------------+------+-----+-------------------+-------+
@@ -49,7 +48,7 @@ host 默认为 localhost，port 默认为 12321。
 
 例 2：
 
-	$ ./DBQuery 200012 "insert into tmp_users (uid, gid, name, age) values (200012, 300, 'first name', 25)"
+	$ ./DBQuery 200012 "insert into tmp_users (uid, gid, name, age) values (200012, 300, 'first name', 25)" bizCluster02
 	Query finished.
 	 
 	affectedRows: 1
