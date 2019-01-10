@@ -58,7 +58,7 @@ host 默认为 localhost，port 默认为 12321。
 
 例 3：
 
-	$ ./DBQuery 200012 "select * from tmp_users"
+	$ ./DBQuery 200012 "select * from tmp_users" bizCluster03
 	Query finished.
 	 
 	+--------+-----+-------------+-----+---------------------+
