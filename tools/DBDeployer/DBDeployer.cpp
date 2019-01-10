@@ -31,12 +31,25 @@ std::string ConfigDatabase::instanceEndpoint(int server_id)
 		return "";
 }
 
-void ConfigDatabase::addMasterDBClient(int server_id, const std::string& host, int port, const std::string& user, const std::string& pwd, int timeout)
+bool ConfigDatabase::getBusinessAccount(int server_id, std::string& user, std::string& pwd)
 {
-	MySQLClientPtr client(new MySQLClient(host, port, user, pwd, "", timeout));
+	auto iter = _instanceInfos.find(server_id);
+	if (iter != _instanceInfos.end())
+	{
+		user = iter->second.user;
+		pwd = iter->second.pwd;
+		return true;
+	}
+	else
+		return false;
+}
+
+void ConfigDatabase::addMasterDBClient(int server_id, const std::string& host, int port, const std::string& bizUser, const std::string& bizPwd, const std::string& adminUser, const std::string& adminPwd, int timeout)
+{
+	MySQLClientPtr client(new MySQLClient(host, port, adminUser, adminPwd, "", timeout));
 	_masterInstances[server_id] = client;
 
-	InstanceNode node{host, std::to_string(port), std::to_string(timeout)};
+	InstanceNode node{host, std::to_string(port), std::to_string(timeout), bizUser, bizPwd};
 	_instanceInfos[server_id] = node;
 }
 
@@ -175,7 +188,7 @@ void DBDeployer::createConfigDatabase(const std::string& dbname)
 
 void DBDeployer::loadConfigDatabase(const std::string& dbname)
 {
-	const char* sql = "select server_id, host, port, timeout from server_info where master_sid = 0";
+	const char* sql = "select server_id, host, port, user, passwd, timeout from server_info where master_sid = 0";
 
 	if (!mySQLIdleCheck(&_configDBClient))
 		return;
@@ -194,7 +207,8 @@ void DBDeployer::loadConfigDatabase(const std::string& dbname)
 		std::string host = result.rows[i][1];
 		int port = atoi(result.rows[i][2].c_str());
 
-		_configDB.addMasterDBClient(atoi(result.rows[i][0].c_str()), host, port, _adminAccount.user, _adminAccount.pwd, atoi(result.rows[i][3].c_str()));
+		_configDB.addMasterDBClient(atoi(result.rows[i][0].c_str()), host, port, result.rows[i][3], result.rows[i][4],
+			_adminAccount.user, _adminAccount.pwd, atoi(result.rows[i][5].c_str()));
 
 		cout << "load master instance " << host << ":" << port << endl;
 	}
@@ -213,45 +227,21 @@ bool DBDeployer::createDatabaseIfNotExit(MySQLClient* mySQLClient, const std::st
 	return executeSQL(mySQLClient, "", sql, "create database failed.");
 }
 
-bool DBDeployer::perpareDatabase(MySQLClient* mySQLClient, const std::string& database)
+bool DBDeployer::perpareDatabase(int deployServerId, const std::string& database)
 {
-	if (_dataAccount.user.empty())
-	{
-		cout<<"Please config business account first."<<endl;
-		return false;
-	}
+	MySQLClient* mySQLClient = _configDB.getMySQLClient(deployServerId).get();
+
+	Account account;
+	_configDB.getBusinessAccount(deployServerId, account.user, account.pwd);
 
 	if (createDatabaseIfNotExit(mySQLClient, database) == false)
 		return false;
 
-	if (configAccountOnInstance(mySQLClient, _dataAccount, "business") == false)
+	if (configAccountOnInstance(mySQLClient, account, "business") == false)
 		return false;
 
-	return accountGrantOnDataDatabase(mySQLClient, database);
+	return accountGrantOnDatabase(mySQLClient, database, account.user, account.pwd, "select, update, insert, delete", account.localhost, account.remote);
 }
-
-/*bool DBDeployer::perpareDatabases(MySQLClient* mySQLClient, const std::vector<std::string>& databases)
-{
-	if (_dataAccount.user.empty())
-	{
-		cout<<"Please config business account first."<<endl;
-		return false;
-	}
-
-	if (configAccountOnInstance(mySQLClient, _dataAccount, "business") == false)
-		return false;
-
-	for (auto& database: databases)
-	{
-		if (createDatabaseIfNotExit(mySQLClient, database) == false)
-			return false;
-
-		if (accountGrantOnDataDatabase(mySQLClient, database) == false)
-			return false;
-	}
-
-	return true;
-}*/
 
 void DBDeployer::showInstances(bool onlyMasterInstance)
 {
@@ -310,8 +300,8 @@ void DBDeployer::addMySQLInstance(const std::string& host, int port, int timeout
 		std::string configDBName = _configDB.dbName();
 		loadConfigDatabase(configDBName);
 
-		for (int sid: _configDB._deployInstances)
-			_configDB.addDeployServer(sid);
+		//for (int sid: _configDB._deployInstances)
+		//	_configDB.addDeployServer(sid);
 	}
 
 	cout<<"Add instance completed."<<endl;
@@ -386,7 +376,7 @@ bool DBDeployer::configAccountOnInstance(MySQLClient* mySQLClient, const Account
 	bool localhost, wildcard;
 	if (checkAccount(mySQLClient, account.user, localhost, wildcard) == false)
 	{
-		cout<<"Check "<<accountDescName<<" account failed."<<endl;
+		cout<<"Check "<<accountDescName<<" account at "<<mySQLClient->endpoint()<<" failed."<<endl;
 		return false;
 	}
 	
@@ -403,7 +393,7 @@ bool DBDeployer::configAccountOnInstance(MySQLClient* mySQLClient, const Account
 	if (localhost && wildcard)
 		if (createAccount(mySQLClient, account.user, account.pwd, localhost, wildcard) == false)
 		{
-			cout<<"Create "<<accountDescName<<" account failed."<<endl;
+			cout<<"Create "<<accountDescName<<" account at "<<mySQLClient->endpoint()<<" failed."<<endl;
 			return false;
 		}
 
@@ -454,17 +444,6 @@ void DBDeployer::accountGrantOnConfigDatabase()
 	}
 
 	accountGrantOnDatabase(&_configDBClient, _configDB.dbName(), _confAccount.user, _confAccount.pwd, "select", _confAccount.localhost, _confAccount.remote);
-}
-
-bool DBDeployer::accountGrantOnDataDatabase(MySQLClient* mySQLClient, const std::string& database)
-{
-	if (_dataAccount.user.empty())
-	{
-		cout<<"Please config business account first."<<endl;
-		return false;
-	}
-
-	return accountGrantOnDatabase(mySQLClient, database, _dataAccount.user, _dataAccount.pwd, "select, update, insert, delete", _dataAccount.localhost, _dataAccount.remote);
 }
 
 void DBDeployer::showDeployServers()

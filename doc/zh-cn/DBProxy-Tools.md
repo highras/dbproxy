@@ -19,10 +19,11 @@
 
 使用：
 
-	./DBQuery hint sql
-	./DBQuery hint table_name  sql
-	./DBQuery host port hint sql
-	./DBQuery host port hint table_name sql
+	./DBQuery hint sql cluster
+	./DBQuery hint table_name  sql cluster
+	./DBQuery host port hint sql cluster
+	./DBQuery host port hint table_name sql cluster
+	./DBQuery host port hintfrom hintto table_name sql cluster
 
 host 默认为 localhost，port 默认为 12321。
 
@@ -176,7 +177,7 @@ host 默认为 localhost，port 默认为 12321。
 
 **建议使用流程：**
 
-+ 新配置库
++ 新配置库(需要混淆业务账号)
 
 		create config database <database_name>
 		config DBProxy account <user_name> <password> [options]
@@ -192,18 +193,42 @@ host 默认为 localhost，port 默认为 12321。
 		confuse config database
 		update config time
 
-+ 已有配置库
++ 新配置库(无需混淆业务账号)
+
+		create config database <database_name>
+		config DBProxy account <user_name> <password> [options]
+		config business account <user> <password> [options]
+		add master instance <host> <port> [timeout_in_sec]
+		show master instances
+		add slave instance <host> <port> <master_server_id> [timeout_in_sec]
+		grant config database
+		add deploy server <master_server_id>
+		add hash table <table_name> <table_count> [with hintId field <fiedl_name>] [to cluster <cluster_name>] in database <basic_database_name> <database_count>
+		or
+		add hash table from <sql_file_path> <table_name> <table_count> [with hintId field <fiedl_name>] [to cluster <cluster_name>] in database <basic_database_name> <database_count>
+		update config time
+
++ 已有配置库(业务账号已混淆)
 
 		load config database <database_name>
 		decode config database
 		load config database <database_name>
-		config business account <user> <password> [options]
 		show master instances
 		add deploy server <master_server_id>
 		add hash table <table_name> <table_count> [with hintId field <fiedl_name>] [to cluster <cluster_name>] in database <basic_database_name> <database_count>
 		or
 		add hash table from <sql_file_path> <table_name> <table_count> [with hintId field <fiedl_name>] [to cluster <cluster_name>] in database <basic_database_name> <database_count>
 		confuse config database
+		update config time
+
++ 已有配置库(业务账号未混淆)
+
+		load config database <database_name>
+		show master instances
+		add deploy server <master_server_id>
+		add hash table <table_name> <table_count> [with hintId field <fiedl_name>] [to cluster <cluster_name>] in database <basic_database_name> <database_count>
+		or
+		add hash table from <sql_file_path> <table_name> <table_count> [with hintId field <fiedl_name>] [to cluster <cluster_name>] in database <basic_database_name> <database_count>
 		update config time
 
 **注意：**

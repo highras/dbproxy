@@ -30,8 +30,10 @@ struct Param
 	std::string host;
 	int port;
 	int64_t hint;
+	int64_t hint_to;
 	std::string tablename;
 	std::string sql;
+	std::string cluster;
 };
 
 void printSelectResult(const std::vector<std::string>& fields, const std::vector<std::vector<std::string>>& rows)
@@ -96,9 +98,10 @@ void printSelectResult(const std::vector<std::string>& fields, const std::vector
 }
 void query(const Param& param)
 {
-	FPQWriter qw((param.tablename.empty() ? 2 : 3), "query");
+	FPQWriter qw((param.tablename.empty() ? 3 : 4), "query");
 	qw.param("hintId", param.hint);
 	qw.param("sql", param.sql);
+	qw.param("cluster", param.cluster);
 
 	if (!param.tablename.empty())
 		qw.param("tableName", param.tablename);
@@ -143,48 +146,72 @@ int main(int argc, const char* argv[])
 {
 	Param param;
 
-	if (argc == 3)
+	if (argc == 4)
 	{
 		param.host = "localhost";
 		param.port = 12321;
 		param.hint = atoll(argv[1]);
 		param.sql = argv[2];
+		param.cluster = argv[3];
 	}
-	else if (argc == 4)
+	else if (argc == 5)
 	{
 		param.host = "localhost";
 		param.port = 12321;
 		param.hint = atoll(argv[1]);
 		param.tablename = argv[2];
 		param.sql = argv[3];
-	}
-	else if (argc == 5)
-	{
-		param.host = argv[1];
-		param.port = atoi(argv[2]);
-		param.hint = atoll(argv[3]);
-		param.sql = argv[4];
+		param.cluster = argv[4];
 	}
 	else if (argc == 6)
 	{
 		param.host = argv[1];
 		param.port = atoi(argv[2]);
 		param.hint = atoll(argv[3]);
+		param.sql = argv[4];
+		param.cluster = argv[5];
+	}
+	else if (argc == 7)
+	{
+		param.host = argv[1];
+		param.port = atoi(argv[2]);
+		param.hint = atoll(argv[3]);
 		param.tablename = argv[4];
 		param.sql = argv[5];
+		param.cluster = argv[6];
+	}
+	else if (argc == 8)
+	{
+		param.host = argv[1];
+		param.port = atoi(argv[2]);
+		param.hint = atoll(argv[3]);
+		param.hint_to = atoll(argv[4]);
+		param.tablename = argv[5];
+		param.sql = argv[6];
+		param.cluster = argv[7];
 	}
 	else
 	{
 		std::cout<<"Usage: "<<std::endl;
-		std::cout<<"\t"<<argv[0]<<" hint sql"<<std::endl;
-		std::cout<<"\t"<<argv[0]<<" hint table_name sql"<<std::endl;
-		std::cout<<"\t"<<argv[0]<<" host port hint sql"<<std::endl;
-		std::cout<<"\t"<<argv[0]<<" host port hint table_name sql"<<std::endl;
+		std::cout<<"\t"<<argv[0]<<" hint sql cluster"<<std::endl;
+		std::cout<<"\t"<<argv[0]<<" hint table_name sql cluster"<<std::endl;
+		std::cout<<"\t"<<argv[0]<<" host port hint sql cluster"<<std::endl;
+		std::cout<<"\t"<<argv[0]<<" host port hint table_name sql cluster"<<std::endl;
+		std::cout<<"\t"<<argv[0]<<" host port hintfrom hintto table_name sql cluster"<<std::endl;
 		std::cout<<"\n\tNotes: host default is localhost, and port default is 12321."<<std::endl;
 		return 0;
 	}
 	
 	ignoreSignals();
-	query(param);
+	if(argc != 8){
+		query(param);
+	}
+	else{
+		for(int64_t i = param.hint; i < param.hint_to; ++i){
+			param.hint = i;
+			query(param);
+		}
+	}
+
 	return 0;
 }

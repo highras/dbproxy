@@ -75,6 +75,7 @@ public:
 	inline bool connected() { return (_client != NULL); }
 	bool ping();
 	void escapeStrings(std::vector<std::string>& strings);
+	std::string endpoint() { return std::string(_host).append(":").append(std::to_string(_port)); }
 
 	FPAnswerPtr query(const std::string& database, const std::string& sql, const FPQuestPtr quest);
 	bool query(const std::string& database, const std::string& sql, QueryResult &result);

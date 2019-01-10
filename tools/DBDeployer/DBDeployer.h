@@ -16,6 +16,8 @@ struct ConfigDatabase
 		std::string host;
 		std::string port;
 		std::string timeout;
+		std::string user;
+		std::string pwd;
 
 		std::string toString()
 		{
@@ -41,8 +43,9 @@ struct ConfigDatabase
 	inline bool empty() { return _masterInstances.empty(); }
 	MySQLClientPtr getMySQLClient(int server_id);
 	std::string instanceEndpoint(int server_id);
+	bool getBusinessAccount(int server_id, std::string& user, std::string& pwd);
 
-	void addMasterDBClient(int server_id, const std::string& host, int port, const std::string& user, const std::string& pwd, int timeout);
+	void addMasterDBClient(int server_id, const std::string& host, int port, const std::string& bizUser, const std::string& bizPwd, const std::string& adminUser, const std::string& adminPwd, int timeout);
 	
 	bool addDeployServer(int server_id);
 	inline void removeDeployServer(int server_id) { _deployInstances.erase(server_id); }
@@ -73,7 +76,7 @@ class DBDeployer
 	bool executeSQL(MySQLClient* mySQL, const std::string& database, const std::string& sql, const std::string& errorInfo);
 
 	bool createDatabaseIfNotExit(MySQLClient* mySQLClient, const std::string& database);
-	bool perpareDatabase(MySQLClient* mySQLClient, const std::string& database);
+	bool perpareDatabase(int deployServerId, const std::string& database);
 	// bool perpareDatabases(MySQLClient* mySQLClient, const std::vector<std::string>& databases);
 
 	bool checkAccount(MySQLClient* mySQLClient, const std::string& user, bool &localhost, bool &wildcard);
@@ -81,7 +84,6 @@ class DBDeployer
 	bool configAccountOnInstance(MySQLClient* mySQLClient, const Account& account, const std::string& accountDescName);
 	bool accountGrantOnDatabase(MySQLClient* mySQLClient, const std::string& database, const std::string& user,
 		const std::string& pwd, const std::string& privileges, bool localhost, bool wildcard);
-	bool accountGrantOnDataDatabase(MySQLClient* mySQLClient, const std::string& database);
 
 	//-- table operations
 	void showTables(const std::string& sql);

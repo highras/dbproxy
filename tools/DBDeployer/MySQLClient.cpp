@@ -1,4 +1,5 @@
-#include "FPLog.h"
+#include <iostream>
+//#include "FPLog.h"
 #include "DataRouterErrorInfo.h"
 #include "MySQLClient.h"
 
@@ -20,7 +21,7 @@ void MySQLClient::MySQLClientEnd()
 void MySQLClient::setDefaultConnectionCharacterSetName(const std::string& connCharacterSetName)
 {
 	_default_connection_charset = connCharacterSetName;
-	LOG_INFO("Connection character set name: %s", _default_connection_charset.c_str());
+	//LOG_INFO("Connection character set name: %s", _default_connection_charset.c_str());
 }
 
 MySQLClient::MySQLClient(const std::string &host, int port, const std::string &username, const std::string &password, const std::string &database, int timeout_seconds)
@@ -229,13 +230,17 @@ bool MySQLClient::query(const std::string& database, const std::string& sql, Que
 
 	if (!adjustCurrentDatabase(database))
 	{
-		LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+		//LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+		std::cout<<"Exception: mysql_errno: "<<mysql_errno(_client)<<", mysql_error: "<<mysql_error(_client)<<", mysql_sqlstate: "<<mysql_sqlstate(_client)<<std::endl;
 		return false;
 	}
 
 	if (mysql_real_query(_client, sql.data(), sql.length()))
 	{
-		LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+		//LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+		std::cout<<"Exception: mysql_errno: "<<mysql_errno(_client)<<", mysql_error: "<<mysql_error(_client)<<", mysql_sqlstate: "<<mysql_sqlstate(_client)<<std::endl;
+		std::cout<<"[database] "<<database<<std::endl;
+		std::cout<<"[sql] "<<sql<<std::endl;
 		return false;
 	}
 	
@@ -245,7 +250,8 @@ bool MySQLClient::query(const std::string& database, const std::string& sql, Que
 	{
 		if (mysql_errno(_client))
 		{
-			LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+			//LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+			std::cout<<"Exception: mysql_errno: "<<mysql_errno(_client)<<", mysql_error: "<<mysql_error(_client)<<", mysql_sqlstate: "<<mysql_sqlstate(_client)<<std::endl;
 			return false;
 		}
 		else if (mysql_field_count(_client) == 0)
@@ -258,7 +264,10 @@ bool MySQLClient::query(const std::string& database, const std::string& sql, Que
 		}
 		else
 		{
-			LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+			//LOG_ERROR("Exception: mysql_errno: %d, mysql_error: %s, mysql_sqlstate: %s", mysql_errno(_client), mysql_error(_client), mysql_sqlstate(_client));
+			std::cout<<"Exception: mysql_errno: "<<mysql_errno(_client)<<", mysql_error: "<<mysql_error(_client)<<", mysql_sqlstate: "<<mysql_sqlstate(_client)<<std::endl;
+			std::cout<<"[database] "<<database<<std::endl;
+			std::cout<<"[sql] "<<sql<<std::endl;
 			return false;
 		}
 	}

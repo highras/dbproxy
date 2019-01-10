@@ -471,8 +471,7 @@ void DBDeployer::createHashTable(const std::string& tableName, const std::string
 		if (tableCount == 1)
 		{
 			int deployServerId = databaseDistribution[0].serverId;
-			MySQLClientPtr mySQLClient = _configDB.getMySQLClient(deployServerId);
-			if (!perpareDatabase(mySQLClient.get(), targetDatabase))
+			if (!perpareDatabase(deployServerId, targetDatabase))
 			{
 				cout<<"Perpare database "<<targetDatabase<<" on "<<_configDB.instanceEndpoint(deployServerId)<<" failed."<<endl;
 				return;
@@ -488,13 +487,11 @@ void DBDeployer::createHashTable(const std::string& tableName, const std::string
 			for (auto& sdp: sidDid)
 			{
 				int deployServerId = sdp.first;
-				MySQLClientPtr mySQLClient = _configDB.getMySQLClient(deployServerId);
-
 				for (int dbIdx: sdp.second)
 				{
 					std::string& databaseName = databaseDistribution[dbIdx].databaseName;
 
-					if (!perpareDatabase(mySQLClient.get(), databaseName))
+					if (!perpareDatabase(deployServerId, databaseName))
 					{
 						cout<<"Perpare database "<<databaseName<<" on "<<_configDB.instanceEndpoint(deployServerId)<<" failed."<<endl;
 						return;
