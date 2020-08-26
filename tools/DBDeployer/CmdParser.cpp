@@ -420,6 +420,8 @@ bool fetchSQLFromFile(DBDeployer& deployer, const std::string& filePath, const s
 				found = deployer.checkTableNameInCreateSQL(tableName, sql, true);
 				if (found)
 					return true;
+				else
+					oss.str("");
 			}
 		}
 	}
