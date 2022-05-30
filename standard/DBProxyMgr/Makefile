@@ -1,4 +1,4 @@
-BUILD_PARAMS = -e EXES_SERVER=DBProxyMgr -e FPNN_DIR=../../../../fpnn -e DEPLOYMENT_DIR=../../../../deployment/debproxy-standard -e DBProxyManagerFlag=-DDBProxy_Manager_Version
+BUILD_PARAMS = -e EXES_SERVER=DBProxyMgr -e FPNN_DIR=../../../../fpnn -e DEPLOYMENT_DIR=../../../../deployment/dbproxy-standard -e DBProxyManagerFlag=-DDBProxy_Manager_Version
 
 all:
 	mkdir -p DBPM
