@@ -48,7 +48,7 @@ bool MySQLClient::connect(const char *connection_charset_name)
 	if (!connection_charset_name)
 		connection_charset_name = _default_connection_charset.c_str();
 		
-	my_bool reconnect = 1;
+	bool reconnect = true;
 	mysql_options(_client, MYSQL_OPT_RECONNECT, &reconnect);
 	mysql_options(_client, MYSQL_SET_CHARSET_NAME, connection_charset_name);
 

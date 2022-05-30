@@ -151,7 +151,11 @@ DatabaseTaskQueuePtr TableManager::findDatabaseTaskQueue(TaskPackagePtr task, in
 						suffixId /= tableInfo->seconddarySplitSpan;
 
 						char suffix[32];
+#ifdef __APPLE__
+						snprintf(suffix, 32, "%lld", suffixId + _secondaryTableNumberBase);
+#else
 						snprintf(suffix, 32, "%ld", suffixId + _secondaryTableNumberBase);
+#endif
 						
 						if (!TaskPackage::setSuffix(tableName, sql, suffix))
 						{
@@ -194,7 +198,11 @@ DatabaseTaskQueuePtr TableManager::findDatabaseTaskQueue(TaskPackagePtr task, in
 			if (count > 1)
 			{
 				char suffix[32];
+#ifdef __APPLE__
+				snprintf(suffix, 32, "_%lld", hintId);
+#else
 				snprintf(suffix, 32, "_%ld", hintId);
+#endif
 				
 				if (!TaskPackage::setSuffix(tableName, sql, suffix))
 				{

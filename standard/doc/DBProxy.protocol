@@ -1,0 +1,160 @@
+================
+ DB Proxy
+================
+---------------
+1. Query Series:
+---------------
+------------
+i. query:
+------------
+=> query { hintId:%d, ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+
+# Parameter introduction:
+# hintId:
+#   Must be positive value or zero.
+#
+# tableName:
+#   Recommend deliver this parameter.
+#   If undelivered, it will be extract from sql. This will reduce the performance.
+#
+# params:
+#   The params will instead of '?' in sql in proper sequence.
+#   If sql do not include '?', params is not required.
+
+# Return for select/desc/describe/explain ...
+# All data is text. include numbers/digits fields, blob fields, ...
+<=  { fields:[%s], rows:[[%s]] }
+
+# Return for update/insert ...
+<=  { affectedRows:%i, insertId:%i }
+
+# Allowed Statement:
+# select, update, insert, replace, delete, desc, describe, explain
+
+
+------------
+ii. iQuery & sQuery
+------------
+=> iQuery { hintIds:[%d], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+# or
+=> sQuery { hintIds:[%s], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+
+# Parameter introduction:
+# hintIds:
+#   All integer hintIds must be positive value or zero.
+
+# If hintIds is empty, the sql will executed on all split databases and tables.
+# By default, just select operation permitted. Other operations require applying to infras team.
+# Although empty "hintIds" has the same meaning with no "hintIds" parameter, the "hintIds" is required to avoid the case that
+# a query should be executed on one table or some special tables but it is executed on all tables in fact just caused by
+# passing "hintId" as "hintIds".
+
+
+# Return for select/desc/describe/explain ...
+# In this case, "order by" and "group" will ignored.
+# All data is text. include numbers/digits fields, blob fields, ...
+
+# iQuery
+<=  { fields:[%s], rows:[[%s]], ?failedIds:[%d], ?invalidIds:[%d] }
+
+# sQuery
+<=  { fields:[%s], rows:[[%s]], ?failedIds:[%s] }
+
+# If hintIds is empty
+# In this case, equivalentIds is 'equivalent table Id' in integer.
+<=  { fields:[%s], rows:[[%s]], ?failedIds:[%d] }
+
+# If hintIds only one value, or all successed, no failedIds members.
+
+
+# Return for update/insert ...
+# iQuery
+<=  { results:[[%d, %d, %d]], ?failedIds:[%d], ?invalidIds:[%d] }
+
+# sQuery
+<=  { results:[[%d, %d, %d]], ?failedIds:[%s] }
+
+# If hintIds is empty
+# In this case, equivalentIds is 'equivalent table Id' in integer.
+<=  { results:[[%d, %d, %d]], ?failedIds:[%d] }
+
+# results: [[ equivalent_table_Id, affectedRows, insertId ], [ equivalent_table_Id, affectedRows, insertId ], ... ]
+
+
+---------------
+2. splitInfo:
+---------------
+# If table not found, will return standard error answer, ex & msg are 'Table not found.'.
+=> splitInfo { tableName:%s }
+<= { splitByRange:true, span:%d, count:%d, databaseCategory:%s, splitHint:%s, secondarySplit:%b, secondarySplitSpan:%d }
+# or
+<= { splitByRange:false, tableCount:%d, splitHint:%s }
+
+
+---------------
+3. categoryInfo:
+---------------
+=> categoryInfo { databaseCategory:%s }
+<= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
+# If oddEvenCount not ZERO, oddEvenIndexes can be used.
+
+
+---------------
+4. reformHintIds:
+---------------
+=> reformHintIds { tableName:%s, hintIds:[%d] }
+<= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
+
+# hintPairs: [[%d, [%d]], [%d, [%d]], [%d, [%d]], ... ]
+
+
+---------------
+5. allSplitHintIds:
+---------------
+=> allSplitHintIds { tableName:%s }
+<= { hintIds:[%d] }
+
+
+---------------
+6. refresh:
+---------------
+=> refresh {}
+<= {}
+
+---------------
+7. transaction:
+---------------
+=> transaction { hintIds:[%d], tableNames:[%s], sqls:[%s] }
+<= {}
+
+=> sTransaction { hintIds:[%s], tableNames:[%s], sqls:[%s] }
+<= {}
+
+# Parameter introduction:
+# hintIds:
+#   All integer hintIds must be positive value or zero.
+
+# Allowed Statement:
+# select, update, insert, replace, delete, desc, describe, explain
+
+# Disable Transaction keywords:
+# START TRANSACTION, BEGIN, COMMIT
+# ROLLBACK, SAVEPOINT, RELEASE SAVEPOINT, LOCK TABLES, UNLOCK TABLES
+# SET [GLOBAL | SESSION] TRANSACTION ISOLATION LEVEL, SET autocommit
+
+
+----------------------------
+ Exception
+----------------------------
+
+# If excpetion occurred, return standard error answer.
+# if error caused by mysql, raiser field is "mysql". If error caused by DBProxy, raiser field is "DBProxy".
+# exception codes:
+# ------------------------------------------------
+# 100403: Invalid SQL statement, or disable operations. 
+# 100404: Table is not found.
+# 100422: Invalid Parameters.
+# 100500: Internal error.
+# 100502: MySQL error.
+# 100503: Unconfigured.
+# 100513: Corresponding query queue caught limitation.

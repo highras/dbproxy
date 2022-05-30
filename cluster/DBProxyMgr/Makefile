@@ -1,4 +1,4 @@
-BUILD_PARAMS = -e EXES_SERVER=DBProxyMgr -e FPNN_DIR=../../../fpnn -e DEPLOYMENT_DIR=../../../deployment/dbproxy -e DBProxyManagerFlag=-DDBProxy_Manager_Version
+BUILD_PARAMS = -e EXES_SERVER=DBProxyMgr -e FPNN_DIR=../../../../fpnn -e DEPLOYMENT_DIR=../../../../deployment/dbproxy-cluster -e DBProxyManagerFlag=-DDBProxy_Manager_Version
 
 all:
 	mkdir -p DBPM
@@ -12,4 +12,7 @@ deploy:
 	make -C DBPM deploy $(BUILD_PARAMS)
 
 clean:
+	make -C DBPM clean $(BUILD_PARAMS)
+
+cleanall:
 	$(RM) -rf DBPM

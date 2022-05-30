@@ -2,13 +2,21 @@
 
 ## 一、配置库
 
-配置库请参见：[Configuration Tables](../../DBProxy/configurationSQL/configurationTables.sql)
+配置库请参见：
+
++ Standard 版本
+
+	[Configuration Tables](../../standard/DBProxy/configurationSQL/configurationTables.sql)
+
++ Cluster版本
+
+	[Configuration Tables](../../cluster/DBProxy/configurationSQL/configurationTables.sql)
 
 具体部署，可使用**DBDeployer**进行部署。请参考[DBProxy 管理工具](DBProxy-Tools.md)中，DBDeployer 相关内容。
 
 ## 二、配置文件
 
-配置文件模版请参见：[配置文件模板](../../DBProxy/DBProxy.conf)
+配置文件模版请参见：[Standard Version](../../standard/DBProxy/DBProxy.conf) [Cluster Version](../../cluster/DBProxy/DBProxy.conf)
 
 ### 配置条目说明
 

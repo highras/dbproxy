@@ -29,7 +29,7 @@
 
 **详细描述请参见 [FPNN 协议说明](https://github.com/highras/fpnn/blob/master/doc/zh-cn/fpnn-protocol-introduction.md)**
 
-**原始协议请参见 [DBProxy Protocol](../DBProxy.protocol)**
+**原始协议请参见 [Standard Version](../../standard/doc/DBProxy.protocol) [Cluster Version](../../cluster/doc/DBProxy.protocol)**
 
 ## 二、接口清单
 
@@ -49,6 +49,12 @@
 ## 三、接口明细
 
 ### query
+
+* standard 版本
+
+	=> query { hintId:%d, ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+
+* cluster 版本
 
 	=> query { hintId:%d, ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 
@@ -113,6 +119,16 @@
 
 
 ### iQuery & sQuery
+
+* standard 版本
+
+	=> iQuery { hintIds:[%d], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+
+	或者
+
+	=> sQuery { hintIds:[%s], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+
+* cluster 版本
 
 	=> iQuery { hintIds:[%d], ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 
@@ -180,6 +196,12 @@
 
 ### splitInfo
 
+* standard 版本
+
+	=> splitInfo { tableName:%s }
+
+* cluster 版本
+
 	=> splitInfo { tableName:%s, ?cluster:%s }
 
 * 返回值
@@ -199,6 +221,13 @@
 
 仅对区段分库分表使用。
 
+* standard 版本
+
+	=> categoryInfo { databaseCategory:%s }
+	<= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
+
+* cluster 版本
+
 	=> categoryInfo { databaseCategory:%s, ?cluster:%s }
 	<= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
 
@@ -206,6 +235,13 @@
 
 
 ### reformHintIds
+
+* standard 版本
+
+	=> reformHintIds { tableName:%s, hintIds:[%d] }
+	<= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
+
+* cluster 版本
 
 	=> reformHintIds { tableName:%s, ?cluster:%s, hintIds:[%d] }
 	<= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
@@ -216,6 +252,13 @@
 
 
 ### allSplitHintIds
+
+* standard 版本
+
+	=> allSplitHintIds { tableName:%s }
+	<= { hintIds:[%d] }
+
+* cluster 版本
 
 	=> allSplitHintIds { tableName:%s, ?cluster:%s }
 	<= { hintIds:[%d] }
@@ -231,6 +274,16 @@
 
 
 ### transaction & sTransaction
+
+* standard 版本
+
+	=> transaction { hintIds:[%d], tableNames:[%s], sqls:[%s] }
+	<= {}
+
+	=> sTransaction { hintIds:[%s], tableNames:[%s], sqls:[%s] }
+	<= {}
+
+* cluster 版本
 
 	=> transaction { hintIds:[%d], tableNames:[%s], ?cluster:%s, sqls:[%s] }
 	<= {}

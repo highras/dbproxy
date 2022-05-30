@@ -536,9 +536,9 @@ std::string ConfigMonitor::statusInJSON()
 	oss<<"{";
 	{
 		#ifdef DBProxy_Manager_Version
-		oss<<"\"DBProxyType:\":\"SPV-Cluster Manager\"";
+		oss<<"\"DBProxyType:\":\"Cluster Manager\"";
 		#else
-		oss<<"\"DBProxyType:\":\"SPV-Cluster\"";
+		oss<<"\"DBProxyType:\":\"Cluster\"";
 		#endif
 		oss<<",\"DBProxyVersion\":\"2.5.4\"";
 		oss<<",\"recyclingQueueSize\":"<<recyclingList.size();
