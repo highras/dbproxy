@@ -15,6 +15,6 @@
 
 **所有工具空参数运行时，均会出现提示。提示格式为 BNF 范式。**
 
-* **Standard 版本**请参见 [Standard Version Tools](../../standard/doc/zh-cn/DBProxy-Tools.md)
+### Standard 版本请参见 [Standard Version Tools](../../standard/doc/zh-cn/DBProxy-Tools.md)
 
-* **Cluster 版本**请参见 [Cluster Version Tools](../../cluster/doc/zh-cn/DBProxy-Tools.md)
+### Cluster 版本请参见 [Cluster Version Tools](../../cluster/doc/zh-cn/DBProxy-Tools.md)
