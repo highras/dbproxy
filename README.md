@@ -32,7 +32,7 @@
 
 运行环境：
 
-+ 操作系统：CentOS 6.5、CentOS 7、CentOS 8、MacOS 11 及以上版本
++ 操作系统：CentOS 6.5、CentOS 7、CentOS 8、Ubuntu 20、MacOS 11 及以上版本
 + 支持数据库：MySQL 5.0 以上
 + 第三方依赖：FPNN 框架、libmysqlclient
 
