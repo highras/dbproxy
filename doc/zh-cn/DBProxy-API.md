@@ -52,11 +52,11 @@
 
 * standard 版本
 
-	=> query { hintId:%d, ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+		=> query { hintId:%d, ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
 
 * cluster 版本
 
-	=> query { hintId:%d, ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
+		=> query { hintId:%d, ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 
 * 参数说明
 
@@ -122,19 +122,19 @@
 
 * standard 版本
 
-	=> iQuery { hintIds:[%d], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+		=> iQuery { hintIds:[%d], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
 
 	或者
 
-	=> sQuery { hintIds:[%s], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
+		=> sQuery { hintIds:[%s], ?tableName:%s, sql:%s, ?params:[%s], ?master:%b }
 
 * cluster 版本
 
-	=> iQuery { hintIds:[%d], ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
+		=> iQuery { hintIds:[%d], ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 
 	或者
 
-	=> sQuery { hintIds:[%s], ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
+		=> sQuery { hintIds:[%s], ?tableName:%s, ?cluster:%s, sql:%s, ?params:[%s], ?master:%b }
 
 
 * 参数说明
@@ -198,11 +198,11 @@
 
 * standard 版本
 
-	=> splitInfo { tableName:%s }
+		=> splitInfo { tableName:%s }
 
 * cluster 版本
 
-	=> splitInfo { tableName:%s, ?cluster:%s }
+		=> splitInfo { tableName:%s, ?cluster:%s }
 
 * 返回值
 
