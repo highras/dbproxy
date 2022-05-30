@@ -16,7 +16,9 @@
 
 ## 二、配置文件
 
-配置文件模版请参见：[Standard Version](../../standard/DBProxy/DBProxy.conf) [Cluster Version](../../cluster/DBProxy/DBProxy.conf)
+配置文件模版请参见：
+* [Standard Version](../../standard/DBProxy/DBProxy.conf)
+* [Cluster Version](../../cluster/DBProxy/DBProxy.conf)
 
 ### 配置条目说明
 

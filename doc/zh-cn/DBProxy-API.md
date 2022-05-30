@@ -223,13 +223,13 @@
 
 * standard 版本
 
-	=> categoryInfo { databaseCategory:%s }
-	<= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
+		=> categoryInfo { databaseCategory:%s }
+		<= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
 
 * cluster 版本
 
-	=> categoryInfo { databaseCategory:%s, ?cluster:%s }
-	<= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
+		=> categoryInfo { databaseCategory:%s, ?cluster:%s }
+		<= { splitCount:%d, oddEvenCount:%d, ?oddEvenIndexes:[%d] }
 
 当 oddEvenCount 为 0 时，返回结果里，oddEvenIndexes 不存在。
 
@@ -238,13 +238,13 @@
 
 * standard 版本
 
-	=> reformHintIds { tableName:%s, hintIds:[%d] }
-	<= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
+		=> reformHintIds { tableName:%s, hintIds:[%d] }
+		<= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
 
 * cluster 版本
 
-	=> reformHintIds { tableName:%s, ?cluster:%s, hintIds:[%d] }
-	<= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
+		=> reformHintIds { tableName:%s, ?cluster:%s, hintIds:[%d] }
+		<= { hintPairs:[ [%d,[%d]] ], invalidIds:[%d] }
 
 + **hintPairs**
 
@@ -255,13 +255,13 @@
 
 * standard 版本
 
-	=> allSplitHintIds { tableName:%s }
-	<= { hintIds:[%d] }
+		=> allSplitHintIds { tableName:%s }
+		<= { hintIds:[%d] }
 
 * cluster 版本
 
-	=> allSplitHintIds { tableName:%s, ?cluster:%s }
-	<= { hintIds:[%d] }
+		=> allSplitHintIds { tableName:%s, ?cluster:%s }
+		<= { hintIds:[%d] }
 
 ### refresh
 
@@ -277,19 +277,19 @@
 
 * standard 版本
 
-	=> transaction { hintIds:[%d], tableNames:[%s], sqls:[%s] }
-	<= {}
+		=> transaction { hintIds:[%d], tableNames:[%s], sqls:[%s] }
+		<= {}
 
-	=> sTransaction { hintIds:[%s], tableNames:[%s], sqls:[%s] }
-	<= {}
+		=> sTransaction { hintIds:[%s], tableNames:[%s], sqls:[%s] }
+		<= {}
 
 * cluster 版本
 
-	=> transaction { hintIds:[%d], tableNames:[%s], ?cluster:%s, sqls:[%s] }
-	<= {}
+		=> transaction { hintIds:[%d], tableNames:[%s], ?cluster:%s, sqls:[%s] }
+		<= {}
 
-	=> sTransaction { hintIds:[%s], tableNames:[%s], ?cluster:%s, sqls:[%s] }
-	<= {}
+		=> sTransaction { hintIds:[%s], tableNames:[%s], ?cluster:%s, sqls:[%s] }
+		<= {}
 
 
 **注意：**
